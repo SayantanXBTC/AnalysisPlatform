@@ -3,7 +3,10 @@ n8n Adapter Agent - Fetches mock data from IQVIA and EXIM via n8n webhooks
 """
 import requests
 import hashlib
-from config import N8N_IQVIA_URL, N8N_EXIM_URL
+import os
+
+N8N_IQVIA_URL = os.getenv("N8N_IQVIA_URL", "https://webhook.site/test-iqvia")
+N8N_EXIM_URL = os.getenv("N8N_EXIM_URL", "https://webhook.site/test-exim")
 
 
 class N8NAdapterAgent:

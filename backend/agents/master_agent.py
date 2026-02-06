@@ -5,9 +5,10 @@ from agents.moa_agent import MoAAgent
 from agents.ppi_agent import PPIAgent
 from agents.disease_similarity_agent import DiseaseSimilarityAgent
 from agents.hypothesis_agent import HypothesisAgent
-from utilities import send_to_n8n
-from config import N8N_WEBHOOK_ANALYSIS_URL
+import os
 from datetime import datetime
+
+N8N_WEBHOOK_ANALYSIS_URL = os.getenv("N8N_WEBHOOK_ANALYSIS_URL", "https://webhook.site/test-analysis")
 
 try:
     from agents import literature_agent
@@ -154,16 +155,8 @@ def run_multi_agent_analysis(drug_name: str, indication: str):
         "Hypothesis_Generation": hypothesis_data
     }
     
-    # Send n8n webhook notification
-    print("[Master Agent] Sending analysis completion webhook to n8n...")
-    send_to_n8n(N8N_WEBHOOK_ANALYSIS_URL, {
-        "drug": drug_name,
-        "indication": indication,
-        "feasibility_score": final_score,
-        "avg_confidence": avg_confidence,
-        "timestamp": datetime.now().isoformat(),
-        "status": "completed"
-    })
+    # Analysis completed
+    print("[Master Agent] Analysis completed successfully")
     
     return results
 
